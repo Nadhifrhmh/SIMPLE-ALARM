@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.simplealarm"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.simplealarm"
@@ -24,10 +24,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-}
 
-kotlin {
-    jvmToolchain(17)
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
