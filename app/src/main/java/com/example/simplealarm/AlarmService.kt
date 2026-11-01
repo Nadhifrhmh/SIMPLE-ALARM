@@ -114,7 +114,8 @@ class AlarmService : Service() {
             mediaPlayer = null
         }
         vibrator?.cancel()
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        @Suppress("DEPRECATION")
+        stopForeground(true)
         stopSelf()
     }
 
