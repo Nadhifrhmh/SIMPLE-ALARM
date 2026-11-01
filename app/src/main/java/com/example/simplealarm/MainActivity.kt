@@ -127,26 +127,22 @@ fun AlarmSetupScreen() {
             onClick = {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    if (!alarmManager.canScheduleExactAlarms()) {
-                        context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
-                        Toast.makeText(context, "Izinkan alarm presisi terlebih dahulu.", Toast.LENGTH_LONG).show()
-                        return@Button
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                    context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+                    Toast.makeText(context, "Izinkan alarm presisi terlebih dahulu.", Toast.LENGTH_LONG).show()
+                } else {
+                    AlarmScheduler.scheduleSequentialAlarms(
+                        context = context,
+                        hour = selectedHour,
+                        minute = selectedMinute,
+                        repetitions = repetitions
+                    )
+                    Toast.makeText(
+                        context,
+                        "$repetitions alarm berhasil didaftarkan!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
-                AlarmScheduler.scheduleSequentialAlarms(
-                    context = context,
-                    hour = selectedHour,
-                    minute = selectedMinute,
-                    repetitions = repetitions
-                )
-
-                Toast.makeText(
-                    context,
-                    "$repetitions alarm berhasil didaftarkan!",
-                    Toast.LENGTH_SHORT
-                ).show()
             },
             modifier = Modifier
                 .fillMaxWidth()
